@@ -1,4 +1,4 @@
-// auth-middleware.js
+
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
@@ -11,7 +11,6 @@ export const userVerification = async (req, res, next) => {
     try {
         const data = jwt.verify(token, process.env.JWT_SECRET);
         const user = await User.findById(data.id);
-        console.log(user);
         if (!user) {
             return res.status(401).json({ status: false, message: 'Access Denied: User Not Found' });
         }

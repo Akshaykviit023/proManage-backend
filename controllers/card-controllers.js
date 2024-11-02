@@ -66,7 +66,6 @@ export const cardDetails = async (req, res) => {
 
         res.status(200).json(filteredCards);
     } catch (error) {
-        console.error("Error fetching card details:", error);
         res.status(500).json({ message: "Failed to fetch card details", error });
     }
 };
@@ -90,7 +89,6 @@ export const changeCardCategory = async (req, res) => {
 
         return res.status(200).json(card);
     } catch (error) {
-        console.error("Error changing category:", error);
         return res.status(500).json({ message: "Failed to change category", error });
     }
 };
@@ -110,7 +108,6 @@ export const deleteCard = async (req, res) => {
 
         res.status(200).json({ message: 'Card deleted successfully', deletedCard });
     } catch (error) {
-        console.error("Error deleting card:", error);
         return res.status(500).json({ message: "Failed to delete card", error });
     }
 }
@@ -124,7 +121,6 @@ export const updateCard = async (req, res) => {
 
         res.status(200).json({ message: 'Card updated successfully', updatedCard });
     } catch (error) {
-        console.error("Error updating card:", error);
         return res.status(500).json({ message: "Failed to update card", error });
     }
 }
@@ -189,7 +185,6 @@ export const getSummary = async (req, res) => {
 
         res.json(response);
     } catch (error) {
-        console.error("Error fetching user-specific card summaries:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 };
@@ -215,7 +210,6 @@ export const updateChecklist = async (req, res) => {
 
         res.status(200).json({ message: 'Checklist item updated successfully', card });
     } catch (error) {
-        console.error("Error updating checklist item:", error);
         res.status(500).json({ message: 'Failed to update checklist item' });
     }
 }
@@ -231,7 +225,6 @@ export const fetchPublicCard = async (req, res) => {
         res.status(200).json({ message: 'card fetched successfully', card });
 
     } catch (error) {
-        console.error("Error fetching card:", error);
         res.status(500).json({ message: 'Failed to fetch card' });
     }
 }

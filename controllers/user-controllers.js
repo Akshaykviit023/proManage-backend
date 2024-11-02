@@ -21,7 +21,6 @@ import { createToken } from "../utils/token-manager.js";
         return res.status(201).json({ message: "OK", id: user._id.toString(), name: user.name, token });
 
     } catch (error) {
-        console.log(error);
         return res.status(200).json({ message: "ERROR", cause: error.message })
     }
  }
@@ -47,14 +46,13 @@ import { createToken } from "../utils/token-manager.js";
 
         return res.status(200).json({ message: "OK", id: user._id.toString(), name: user.name, token })
     } catch (error) {
-        console.log(error);
         return res.status(200).json({ message: "ERROR", cause: error.message });
     }
  }
 
  export const fetchUsers = async (req, res) => {
     try {
-        const users = await User.find({}, 'email'); // Adjust query based on your schema
+        const users = await User.find({}, 'email'); 
         return res.json(users);
     } catch (error) {
         res.status(500).json({ message: 'Failed to fetch users' });
@@ -67,26 +65,22 @@ export const updatePersonalInfo = async (req, res) => {
     try {
         const { name, updatedEmail, oldPassword, newPassword } = req.body;
 
-        // Check if user exists
         const existingUser = await User.findById(userId);
         if (!existingUser) {
             return res.status(404).json({ message: "User not found" });
         }
 
-        // Check if the old password is correct
         const isPasswordCorrect = await compare(oldPassword, existingUser.password);
 
         if (!isPasswordCorrect) {
             return res.status(403).json({ message: "Incorrect password" });
         }
 
-        // Hash the new password if provided
         const updatedData = { name, email: updatedEmail };
         if (newPassword) {
             updatedData.password = await hash(newPassword, 10);
         }
 
-        // Update user information
         const updatedUser = await User.findByIdAndUpdate(
             userId,
             updatedData,
@@ -97,7 +91,6 @@ export const updatePersonalInfo = async (req, res) => {
             return res.status(500).json({ message: 'Error updating user information' });
         }
 
-        // Create a new token (if required)
         const token = createToken(updatedUser._id.toString(), updatedUser.email, "30d");
 
         return res.status(200).json({
@@ -108,7 +101,6 @@ export const updatePersonalInfo = async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Error updating user:", error); // Log the error for debugging
         return res.status(500).json({ message: 'Error updating user', error: error.message });
     }
 };
